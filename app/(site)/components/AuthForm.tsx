@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import Input from "../../components/inputs/input";
 import AuthSocialButton from './AuthSocialButton';
 import Button from "@/app/components/Button";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
-  //   const session = useSession();
+    // const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
@@ -57,14 +57,14 @@ const AuthForm = () => {
       }))
       .then((callback) => {
         if (callback?.error) {
-        //   toast.error('Invalid credentials!');
+          toast.error('Invalid credentials!');
         }
 
         if (callback?.ok) {
           router.push('/conversations')
         }
       })
-    //   .catch(() => toast.error('Something went wrong!'))
+      .catch(() => toast.error('Something went wrong!'))
       .finally(() => setIsLoading(false))
     }
 
@@ -75,11 +75,13 @@ const AuthForm = () => {
       })
       .then((callback) => {
         if (callback?.error) {
-        //   toast.error('Invalid credentials!');
+          toast.error('Invalid credentials!');
         }
 
         if (callback?.ok) {
-          router.push('/conversations')
+          // router.push('/conversations')
+          toast.success('Logged in!');
+
         }
       })
       .finally(() => setIsLoading(false))
@@ -89,17 +91,18 @@ const AuthForm = () => {
   const socialAction = (action: string) => {
     setIsLoading(true);
 
-    // signIn(action, { redirect: false })
-    //   .then((callback) => {
-    //     if (callback?.error) {
-    //       toast.error('Invalid credentials!');
-    //     }
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid credentials!');
+        }
 
-    //     if (callback?.ok) {
-    //       router.push('/conversations')
-    //     }
-    //   })
-    //   .finally(() => setIsLoading(false));
+        if (callback?.ok) {
+          toast.success('Logged in!');
+          // router.push('/conversations')
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
